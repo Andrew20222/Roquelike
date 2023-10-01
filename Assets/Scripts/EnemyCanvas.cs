@@ -10,6 +10,7 @@ public class EnemyCanvas : MonoBehaviour
     {
         var instance = Instantiate(enemyResourceLinker, transform);
         instance.EnemyPositionTracker.Init(enemyContainer.HeadUp);
-        enemyContainer.HealView.OnHealthChangeEvent +=  instance.ResourseSlider.SetValue;
+        enemyContainer.HealView.OnHealthChangeEvent += instance.ResourseSlider.SetValue;
+        enemyContainer.HealView.OnDeathEvent += () => Destroy(instance.gameObject);
     }
 }

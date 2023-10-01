@@ -4,7 +4,7 @@ namespace DefaultNamespace
 {
     public class ManaFiller : MonoBehaviour
     {
-        [field:SerializeField] public int ManaCount { get;private set; }
+        [field: SerializeField] public int ManaCount { get; private set; }
 
         public void PlayDestroyAnimation()
         {

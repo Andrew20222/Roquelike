@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class EnemyPositionTracker : MonoBehaviour
 {
@@ -7,6 +8,11 @@ public class EnemyPositionTracker : MonoBehaviour
     public void Init(Transform position)
     {
         _position = position;
+    }
+
+    public void OnDestroy()
+    {
+        
     }
 
     private void Update()

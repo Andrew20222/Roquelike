@@ -1,19 +1,22 @@
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EnemyMove : MonoBehaviour
 {
     [SerializeField] private float speed;
-    [SerializeField] private NavMeshAgent characterController;
+    [SerializeField] private CharacterController characterController;
     private Transform _player;
+    private bool _isDeath;
 
     public void Init(Transform player)
     {
         _player = player;
+        _isDeath = false;
     }
 
+    public void Death() => _isDeath=true;
     private void Update()
     {
+        if (_isDeath) return;
         Move();   
     }
     

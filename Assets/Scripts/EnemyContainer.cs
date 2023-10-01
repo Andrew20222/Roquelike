@@ -7,6 +7,7 @@ namespace DefaultNamespace
         [SerializeField] private EnemyAttack enemyAttack;
         [SerializeField] private EnemyMove enemyMove;
         [SerializeField] private HealthStatsBehaviour healthStatsBehaviour;
+        [SerializeField] private DeathBehaviour deathBehaviour;
         [field:SerializeField] public Transform HeadUp { get; private set; }
         public bool IsEnemy => true;
         public IHealView HealView { get; private set; }
@@ -20,14 +21,13 @@ namespace DefaultNamespace
 
         public void Prepare(PlayerContainer playerContainer)
         {
-            enemyMove.Init(playerContainer.transform);
-            enemyAttack.Init(playerContainer.transform, playerContainer);
-        }
-        
-        private void Awake()
-        {
             HealView = healthStatsBehaviour;
             healthStatsBehaviour.SetMaxHealth(maxHealthValue);
+            enemyMove.Init(playerContainer.transform);
+            enemyAttack.Init(playerContainer.transform, playerContainer);
+            HealView.OnDeathEvent += enemyMove.Death;
+            HealView.OnDeathEvent += deathBehaviour.Death;
+
         }
     }
 }

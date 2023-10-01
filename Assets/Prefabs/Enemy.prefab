@@ -95,9 +95,10 @@ GameObject:
   - component: {fileID: 4335903951919898356}
   - component: {fileID: 4332158279635926051}
   - component: {fileID: 3666816505359627430}
-  - component: {fileID: -1710289056596246177}
   - component: {fileID: 3717381512598512867}
   - component: {fileID: 83959013}
+  - component: {fileID: 4552828765550420181}
+  - component: {fileID: 9150197342744275163}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -135,7 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  characterController: {fileID: -1710289056596246177}
+  characterController: {fileID: 4552828765550420181}
 --- !u!114 &4332158279635926051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,30 +165,9 @@ MonoBehaviour:
   enemyAttack: {fileID: 4332158279635926051}
   enemyMove: {fileID: 4335903951919898356}
   healthStatsBehaviour: {fileID: 3717381512598512867}
+  deathBehaviour: {fileID: 9150197342744275163}
   <HeadUp>k__BackingField: {fileID: 4974050919464278200}
   maxHealthValue: 50
---- !u!195 &-1710289056596246177
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4335903951919898358}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 1
-  m_BaseOffset: 1
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
 --- !u!114 &3717381512598512867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,6 +194,37 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!143 &4552828765550420181
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4335903951919898358}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &9150197342744275163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4335903951919898358}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 916cc71d9d7440b3abde883cab788df0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manaPrefab: {fileID: 1703818782836349959, guid: 8d7afcc83151521448d2170fef479d09, type: 3}
 --- !u!1 &8691452108066902905
 GameObject:
   m_ObjectHideFlags: 0

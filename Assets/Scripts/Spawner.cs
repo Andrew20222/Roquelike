@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace DefaultNamespace
 {
@@ -7,22 +9,28 @@ namespace DefaultNamespace
     {
         [SerializeField] private EnemyContainer prefab;
         [SerializeField] private EnemyCanvas enemyCanvas;
-        [SerializeField] private Transform spawnPos;
+        [SerializeField] private Transform[] spawnPos;
         [SerializeField] private PlayerContainer player;
-        [SerializeField] private float enemySpawnCount;
         [SerializeField] private float timeToSpawn = 1f;
+        private Coroutine _spawnCoroutine;
 
         private void Start()
         {
-            StartCoroutine(Spawn(enemySpawnCount));
+            _spawnCoroutine = StartCoroutine(Spawn());
         }
 
-        private IEnumerator Spawn(float spawnCount)
+        private void OnDestroy()
         {
-            for (int i = 0; i < spawnCount; i++)
+            StopCoroutine(_spawnCoroutine);
+        }
+
+        private IEnumerator Spawn()
+        {
+            for (int i = 0;;)
             {
                 yield return new WaitForSeconds(timeToSpawn);
-                var enemy = Instantiate(prefab,spawnPos.position, Quaternion.identity);  
+                var currentPoint = Random.Range(0, spawnPos.Length);
+                var enemy = Instantiate(prefab, spawnPos[currentPoint].position, Quaternion.identity);
                 enemy.Prepare(player);
                 enemyCanvas.SpawnSlider(enemy);
             }
