@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 
 namespace DefaultNamespace
 {
-    public class Spawner : MonoBehaviour
+    public class EnemySpawner : MonoBehaviour
     {
         [SerializeField] private EnemyContainer prefab;
         [SerializeField] private EnemyCanvas enemyCanvas;
@@ -28,12 +28,12 @@ namespace DefaultNamespace
 
         private IEnumerator Spawn()
         {
-            for (int i = 0;;)
+            for (;;)
             {
-                Debug.Log(Vector3.Distance(player.transform.position, spawnPos[i].position));
-                if (Vector3.Distance(player.transform.position, spawnPos[i].position) < minDistanceToSpawn) yield return null;
-                yield return new WaitForSeconds(timeToSpawn);
                 var currentPoint = Random.Range(0, spawnPos.Length);
+                Debug.Log(Vector3.Distance(player.transform.position, spawnPos[currentPoint].position));
+                if (Vector3.Distance(player.transform.position, spawnPos[currentPoint].position) < minDistanceToSpawn) continue;
+                yield return new WaitForSeconds(timeToSpawn);
                 var enemy = Instantiate(prefab, spawnPos[currentPoint].position, Quaternion.identity);
                 enemy.Prepare(player);
                 enemyCanvas.SpawnSlider(enemy);
