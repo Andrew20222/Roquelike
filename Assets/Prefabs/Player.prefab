@@ -14,7 +14,8 @@ GameObject:
   - component: {fileID: 753930277070924281}
   - component: {fileID: 753930277070924260}
   - component: {fileID: 753930277070924280}
-  m_Layer: 0
+  - component: {fileID: 7152855194110049546}
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -56,7 +57,7 @@ MonoBehaviour:
   manaStats: {fileID: 753930277070924280}
   healthStatsBehaviour: {fileID: 753930277070924281}
   <PlayerMove>k__BackingField: {fileID: 753930277070924283}
-  <Magnet>k__BackingField: {fileID: 753930277543352283}
+  <DeathBehaviour>k__BackingField: {fileID: 7152855194110049546}
 --- !u!114 &753930277070924283
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -111,6 +112,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f5e6461bc33b85546a335a2f292a0aa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7152855194110049546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753930277070924262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 916cc71d9d7440b3abde883cab788df0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &753930277079405886

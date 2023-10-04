@@ -1,6 +1,8 @@
-﻿using Interfaces;
+﻿using System;
+using Interfaces;
 using Unit.Player;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Enemy
 {
@@ -9,7 +11,8 @@ namespace Enemy
         [SerializeField] private EnemyAttack enemyAttack;
         [SerializeField] private EnemyMove enemyMove;
         [SerializeField] private HealthStatsBehaviour healthStatsBehaviour;
-        [SerializeField] private DeathBehaviour deathBehaviour;
+        private IStopObservable _stopObservable;
+        [field: SerializeField] public DeathBehaviour DeathBehaviour { get; private set; }
         [field:SerializeField] public Transform HeadUp { get; private set; }
         public bool IsEnemy => true;
         public IHealView HealView { get; private set; }
@@ -21,6 +24,11 @@ namespace Enemy
             HealView.SpendHealth(damage);
         }
 
+        public void SetStoppable(IStopObservable stopObservable)
+        {
+            _stopObservable = stopObservable;
+            _stopObservable.Subscribe(enemyMove.UpdateStop);
+        }
         public void Prepare(PlayerContainer playerContainer)
         {
             HealView = healthStatsBehaviour;
@@ -28,8 +36,13 @@ namespace Enemy
             enemyMove.Init(playerContainer.transform);
             enemyAttack.Init(playerContainer.transform, playerContainer);
             HealView.OnDeathEvent += enemyMove.Death;
-            HealView.OnDeathEvent += deathBehaviour.Death;
+            HealView.OnDeathEvent += DeathBehaviour.Death;
 
+        }
+
+        private void OnDestroy()
+        {
+            _stopObservable.Unsubscribe(enemyMove.UpdateStop);
         }
     }
 }

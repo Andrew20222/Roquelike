@@ -8,16 +8,20 @@ namespace Enemy
         [SerializeField] private CharacterController characterController;
         private Transform _player;
         private bool _isDeath;
+        private bool _isStop;
 
         public void Init(Transform player)
         {
             _player = player;
             _isDeath = false;
+            _isStop = false;
         }
 
+        public void UpdateStop(bool value) => _isStop = value;
         public void Death() => _isDeath=true;
         private void Update()
         {
+            if (_isStop) return;
             if (_isDeath) return;
             Move();   
         }

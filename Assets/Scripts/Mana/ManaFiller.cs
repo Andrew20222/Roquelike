@@ -1,14 +1,28 @@
-﻿using UnityEngine;
+﻿using System;
+using Pools;
+using UnityEngine;
 
 namespace Mana
 {
-    public class ManaFiller : MonoBehaviour
+    public class ManaFiller : MonoBehaviour, IPoolable<ManaFiller>
     {
         [field: SerializeField] public int ManaCount { get; private set; }
+        public event Action<ManaFiller> ReturnInPool;
+        public void Play()
+        {
+            gameObject.SetActive(true);
+        }
+
+        public void SetPosition(Vector3 position)
+        {
+            transform.position = position;
+        }
 
         public void PlayDestroyAnimation()
         {
-            Destroy(gameObject);
+            ReturnInPool?.Invoke(this);
+            gameObject.SetActive(false);
         }
+
     }
 }

@@ -11,7 +11,7 @@ namespace Unit.Player
         [SerializeField] private ManaStats manaStats;
         [SerializeField] private HealthStatsBehaviour healthStatsBehaviour;
         [field: SerializeField] public PlayerMove PlayerMove { get; private set; }
-        [field:SerializeField] public Magnet.Magnet Magnet { get; private set; }
+        [field: SerializeField] public DeathBehaviour DeathBehaviour { get; private set; }
         public bool IsEnemy { get; private set; }
         public IManaHandler ManaHandler { get; private set; }
         public IHealView HealView { get; private set; }
@@ -21,6 +21,7 @@ namespace Unit.Player
         {
             ManaHandler = manaStats;
             HealView = healthStatsBehaviour;
+            HealView.OnDeathEvent += DeathBehaviour.Death;
             IsEnemy = false;
         }
 
