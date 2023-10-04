@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DefaultNamespace
+namespace Mana
 {
     public interface IManaHandler
     {

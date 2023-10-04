@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using Interfaces;
+using Unit.Player;
+using UnityEngine;
 
-namespace DefaultNamespace
+namespace Enemy
 {
     public class EnemyContainer : MonoBehaviour, IDamageble
     {

@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
+﻿using UI;
+using UnityEngine;
 
-namespace UI
+namespace Enemy
 {
     public class EnemyResourceLinker : MonoBehaviour
     {

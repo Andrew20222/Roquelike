@@ -1,22 +1,24 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class EnemyPositionTracker : MonoBehaviour
+namespace Enemy
 {
-    private Transform _position;
-
-    public void Init(Transform position)
+    public class EnemyPositionTracker : MonoBehaviour
     {
-        _position = position;
-    }
+        private Transform _position;
 
-    public void OnDestroy()
-    {
+        public void Init(Transform position)
+        {
+            _position = position;
+        }
+
+        public void OnDestroy()
+        {
         
-    }
+        }
 
-    private void Update()
-    {
-        transform.position = _position.position;
+        private void Update()
+        {
+            transform.position = _position.position;
+        }
     }
 }

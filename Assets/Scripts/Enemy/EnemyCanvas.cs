@@ -1,16 +1,17 @@
-using DefaultNamespace;
-using UI;
 using UnityEngine;
 
-public class EnemyCanvas : MonoBehaviour
+namespace Enemy
 {
-    [SerializeField] private EnemyResourceLinker enemyResourceLinker;
-
-    public void SpawnSlider(EnemyContainer enemyContainer)
+    public class EnemyCanvas : MonoBehaviour
     {
-        var instance = Instantiate(enemyResourceLinker, transform);
-        instance.EnemyPositionTracker.Init(enemyContainer.HeadUp);
-        enemyContainer.HealView.OnHealthChangeEvent += instance.ResourseSlider.SetValue;
-        enemyContainer.HealView.OnDeathEvent += () => Destroy(instance.gameObject);
+        [SerializeField] private EnemyResourceLinker enemyResourceLinker;
+
+        public void SpawnSlider(EnemyContainer enemyContainer)
+        {
+            var instance = Instantiate(enemyResourceLinker, transform);
+            instance.EnemyPositionTracker.Init(enemyContainer.HeadUp);
+            enemyContainer.HealView.OnHealthChangeEvent += instance.ResourseSlider.SetValue;
+            enemyContainer.HealView.OnDeathEvent += () => Destroy(instance.gameObject);
+        }
     }
 }

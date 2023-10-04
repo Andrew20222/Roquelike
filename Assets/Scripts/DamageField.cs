@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using DefaultNamespace;
+using Interfaces;
 using UnityEngine;
 
 public class DamageField : MonoBehaviour

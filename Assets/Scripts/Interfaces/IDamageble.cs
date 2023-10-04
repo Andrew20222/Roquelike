@@ -1,4 +1,4 @@
-﻿namespace DefaultNamespace
+﻿namespace Interfaces
 {
     public interface IDamageble
     {

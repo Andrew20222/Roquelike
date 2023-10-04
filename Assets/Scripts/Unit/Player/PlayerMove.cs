@@ -1,12 +1,15 @@
 using UnityEngine;
 
-public class PlayerMove : MonoBehaviour
+namespace Unit.Player
 {
-    [SerializeField] private CharacterController characterController;
-    [SerializeField] private float speed;
-
-    public void Move(Vector3 axis)
+    public class PlayerMove : MonoBehaviour
     {
-        characterController.Move(axis * (speed * Time.deltaTime));
+        [SerializeField] private CharacterController characterController;
+        [SerializeField] private float speed;
+
+        public void Move(Vector3 axis)
+        {
+            characterController.Move(axis * (speed * Time.deltaTime));
+        }
     }
 }

@@ -1,4 +1,4 @@
-using DefaultNamespace;
+using Mana;
 using UnityEngine;
 
 public class DeathBehaviour : MonoBehaviour

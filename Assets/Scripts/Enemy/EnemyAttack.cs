@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Interfaces;
+using UnityEngine;
 
-namespace DefaultNamespace
+namespace Enemy
 {
     public class EnemyAttack : MonoBehaviour
     {
