@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4335903950664151103}
   - component: {fileID: 4335903950664151102}
   - component: {fileID: 4335903950664151097}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 83959013}
   - component: {fileID: 4552828765550420181}
   - component: {fileID: 9150197342744275163}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -234,7 +234,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4974050919464278200}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: HeadUp
   m_TagString: Untagged
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
