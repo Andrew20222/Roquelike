@@ -30,7 +30,6 @@ namespace DefaultNamespace
         {
             for (int i = 0;;)
             {
-                Debug.Log(Vector3.Distance(player.transform.position, spawnPos[i].position));
                 if (Vector3.Distance(player.transform.position, spawnPos[i].position) < minDistanceToSpawn) yield return null;
                 yield return new WaitForSeconds(timeToSpawn);
                 var currentPoint = Random.Range(0, spawnPos.Length);
