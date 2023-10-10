@@ -13,7 +13,7 @@ namespace Enemy
 
         private void Update()
         {
-            transform.position = _position.position;
+          if(_position != null)  transform.position = _position.position;
         }
     }
 }

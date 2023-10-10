@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Interfaces;
@@ -55,11 +56,27 @@ public class DamageField : MonoBehaviour
         for (;;)
         {
             yield return new WaitForSeconds(damageDelay);
+
             _oldEnemies = new List<IDamageable>(_actualEnemies);
+
             foreach (var damageable in _oldEnemies)
             {
                 damageable.TakeDamage(damage);
             }
+        }
+    }
+
+    private void Update()
+    {
+        var removeEnemies = new List<IDamageable>();
+        foreach (var enemy in _actualEnemies)
+        {
+            if (enemy.isAlive == false) removeEnemies.Add(enemy);
+        }
+
+        foreach (var enemy in removeEnemies)
+        {
+            if (_actualEnemies.Contains(enemy)) _actualEnemies.Remove(enemy);
         }
     }
 }

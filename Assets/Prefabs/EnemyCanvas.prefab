@@ -113,4 +113,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c855903611ccd5849bf1130345ee493b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyResourceLinker: {fileID: 4851386127238886191, guid: 91ddf284ac37f1f44adfd56e9c923476, type: 3}
+  prefab: {fileID: 4851386127238886191, guid: 91ddf284ac37f1f44adfd56e9c923476, type: 3}
+  minCount: 10

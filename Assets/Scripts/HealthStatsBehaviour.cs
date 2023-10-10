@@ -9,7 +9,6 @@ public class HealthStatsBehaviour : MonoBehaviour, IHealView
     public float MaxHealth { get; private set; }
     public float CurrentHealth { get; private set; }
     
-    private bool _isDeath;
         
     public void SpendHealth(float value)
     {
@@ -34,8 +33,7 @@ public class HealthStatsBehaviour : MonoBehaviour, IHealView
  
     private void Death()
     {
-        if (_isDeath) return;
-        _isDeath = true;
+        OnHealthChangeEvent = null;
         OnDeathEvent?.Invoke();
     }
 }

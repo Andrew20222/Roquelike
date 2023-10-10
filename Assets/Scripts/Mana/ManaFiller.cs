@@ -9,9 +9,16 @@ namespace Mana
     {
         [field: SerializeField] public int ManaCount { get; private set; }
         public event Action<ManaFiller> ReturnInPool;
+
         public void Play()
         {
             gameObject.SetActive(true);
+        }
+
+        public void Stop()
+        {
+            ReturnInPool?.Invoke(this);
+            gameObject.SetActive(false);
         }
 
         public void SetPosition(Vector3 position)
@@ -24,13 +31,8 @@ namespace Mana
             ManaCount = count;
         }
 
-        public void SetStoppable(IStopObservable stopObservable) { }
-        
-        public void PlayDestroyAnimation()
+        public void SetStoppable(IStopObservable stopObservable)
         {
-            ReturnInPool?.Invoke(this);
-            gameObject.SetActive(false);
         }
-
     }
 }
