@@ -1,16 +1,19 @@
-using DefaultNamespace;
+using Mana;
 using UnityEngine;
 
-public class Magnet : MonoBehaviour
+namespace Unit.Player.Magnet
 {
-    [SerializeField] private PlayerContainer playerContainer;
-    
-    private void OnTriggerEnter(Collider other)
+    public class Magnet : MonoBehaviour
     {
-        if (other.gameObject.TryGetComponent(out ManaFiller mana))
+        [SerializeField] private PlayerContainer playerContainer;
+    
+        private void OnTriggerEnter(Collider other)
         {
-            playerContainer.ManaHandler.AddMana(mana.ManaCount);
-            mana.PlayDestroyAnimation();
+            if (other.gameObject.TryGetComponent(out ManaFiller mana))
+            {
+                playerContainer.ManaHandler.AddMana(mana.ManaCount);
+                mana.PlayDestroyAnimation();
+            }
         }
     }
 }

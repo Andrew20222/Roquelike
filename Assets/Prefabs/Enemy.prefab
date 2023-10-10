@@ -105,7 +105,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4335903951919898359
 Transform:
   m_ObjectHideFlags: 0
@@ -135,8 +135,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8c9cc3f45635f049a07a609a94ac00b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
   characterController: {fileID: 4552828765550420181}
+  speed: 5
 --- !u!114 &4332158279635926051
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,6 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 100
+  distanceToAttack: 1
 --- !u!114 &3666816505359627430
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,9 +166,9 @@ MonoBehaviour:
   enemyAttack: {fileID: 4332158279635926051}
   enemyMove: {fileID: 4335903951919898356}
   healthStatsBehaviour: {fileID: 3717381512598512867}
-  deathBehaviour: {fileID: 9150197342744275163}
-  <HeadUp>k__BackingField: {fileID: 4974050919464278200}
   maxHealthValue: 50
+  <DeathBehaviour>k__BackingField: {fileID: 9150197342744275163}
+  <HeadUp>k__BackingField: {fileID: 4974050919464278200}
 --- !u!114 &3717381512598512867
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,7 +225,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 916cc71d9d7440b3abde883cab788df0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  manaPrefab: {fileID: 1703818782836349959, guid: 8d7afcc83151521448d2170fef479d09, type: 3}
 --- !u!1 &8691452108066902905
 GameObject:
   m_ObjectHideFlags: 0

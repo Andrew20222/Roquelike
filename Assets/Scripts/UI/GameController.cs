@@ -1,4 +1,4 @@
-﻿using DefaultNamespace;
+﻿using Unit.Player;
 using UnityEngine;
 
 namespace UI
@@ -7,11 +7,13 @@ namespace UI
     {
         [SerializeField] private ResourseSlider manaSlider;
         [SerializeField] private ResourseSlider hpSlider;
-        [SerializeField] private PlayerContainer playerContainer;
-        private void Start()
+        private PlayerContainer _playerContainer;
+
+        public void SetPlayer(PlayerContainer player)
         {
-            playerContainer.ManaHandler.OnUpdateMana += manaSlider.SetValue;
-            playerContainer.HealView.OnHealthChangeEvent += hpSlider.SetValue;
+            _playerContainer = player;
+            _playerContainer.ManaHandler.OnUpdateMana += manaSlider.SetValue;
+            _playerContainer.HealView.OnHealthChangeEvent += hpSlider.SetValue;
         }
     }
 }

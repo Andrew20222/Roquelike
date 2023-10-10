@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1703818782836349955
 Transform:
   m_ObjectHideFlags: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 025bc029c07db6e44bac3028ccf8242d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ManaCount>k__BackingField: 20
+  <ManaCount>k__BackingField: 5
 --- !u!54 &1703818782836349954
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -16,7 +16,7 @@ public class CircleDrawer : MonoBehaviour
     {
         lineRenderer.positionCount = segments + 1;
 
-        float deltaAngle = 2.0f * Mathf.PI / segments;
+        var deltaAngle = 2.0f * Mathf.PI / segments;
         float angle = 0;
 
         for (int i = 0; i < segments + 1; i++)
