@@ -16,6 +16,7 @@ public class DeathBehaviour : MonoBehaviour
         var count = Random.Range(10, 100);
         DeathEvent?.Invoke();
         var mana = GetManaEvent?.Invoke();
+        
         if (mana != null)
         {
             Debug.Log("Mana");
@@ -24,6 +25,6 @@ public class DeathBehaviour : MonoBehaviour
             mana.Play();
         }
         
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }
