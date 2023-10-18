@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Enemy;
+using Pools;
 using Unit.Player;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -9,34 +11,33 @@ namespace Spawners
     public class EnemySpawner : MonoBehaviour
     {
         [SerializeField] private PlayerSpawner spawner;
-        [SerializeField] private DeathBehaviour deathBehaviour;
-        [SerializeField] private Pools.Mana manaPool;
         [SerializeField] private Pools.Enemy enemyPool;
-        [SerializeField] private Pools.Canvas enemyPoolCanvas;
+        [SerializeField] private EnemyCanvas enemyPoolCanvas;
         [SerializeField] private StopController stopController;
         [SerializeField] private Transform[] spawnsPos;
         [SerializeField] private float timeToSpawn = 1f;
         [SerializeField] private float minDistanceToSpawn = 5f;
-        
+
         private PlayerContainer _player;
         private Coroutine _spawnCoroutine;
         private bool _isStop;
 
         private void Awake()
         {
-            spawner.SpawnPlayerEvent += player => _player = player;
+            spawner.SpawnPlayerEvent += SpawnPlayer;
         }
 
-        private void Start()
+        private void SpawnPlayer(PlayerContainer container)
         {
-            _spawnCoroutine = StartCoroutine(Spawn());
+            _player = container;
             stopController.StopEvent += UpdateStop;
+            if(_spawnCoroutine == null) _spawnCoroutine = StartCoroutine(Spawn());
         }
 
         private void UpdateStop(bool value)
         {
             _isStop = value;
-            
+
             if (_isStop)
             {
                 StopCoroutine(_spawnCoroutine);
@@ -46,10 +47,10 @@ namespace Spawners
                 _spawnCoroutine = StartCoroutine(Spawn());
             }
         }
-        
+
         private void OnDestroy()
         {
-            if(_spawnCoroutine!=null) StopCoroutine(_spawnCoroutine);
+            if (_spawnCoroutine != null) StopCoroutine(_spawnCoroutine);
         }
 
         private IEnumerator Spawn()
@@ -58,24 +59,27 @@ namespace Spawners
             {
                 yield return new WaitForSeconds(timeToSpawn);
                 var currentPoint = Random.Range(0, spawnsPos.Length);
-                
+
                 if (_player == null) continue;
-                
-                if (Vector3.Distance(_player.transform.position, 
+
+                if (Vector3.Distance(_player.transform.position,
                         spawnsPos[currentPoint].position) < minDistanceToSpawn) continue;
-                
+
                 yield return new WaitForSeconds(timeToSpawn);
-                
+
                 if (_isStop) continue;
-                
-                deathBehaviour.GetManaEvent += manaPool.GetInPool;
-                
+                var position = spawnsPos[currentPoint].position;
                 var enemy = enemyPool.GetInPool();
                 var canvas = enemyPoolCanvas.GetInPool();
-                
-                enemy.Play(_player);
-                enemy.SetStoppable(stopController);
-                canvas.Play((EnemyContainer)enemy);
+                var slider = (EnemyResourceLinker)canvas;
+                var container = (EnemyContainer)enemy;
+
+                container.HealView.OnHealthChangeEvent += slider.ResourseSlider.SetValue;
+                slider.EnemyPositionTracker.Init(container.HeadUp);
+                container.DeathEvent += slider.Stop;
+                enemy.SetPosition(position);
+                enemy.Play();
+                canvas.Play();
             }
         }
     }

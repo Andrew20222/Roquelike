@@ -1,4 +1,5 @@
 using Mana;
+using Pools;
 using UnityEngine;
 
 namespace Unit.Player.Magnet
@@ -9,10 +10,10 @@ namespace Unit.Player.Magnet
     
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.TryGetComponent(out ManaFiller mana))
+            if (other.gameObject.TryGetComponent(out IPoolable<ManaFiller> mana))
             {
-                playerContainer.ManaHandler.AddMana(mana.ManaCount);
-                mana.PlayDestroyAnimation();
+                playerContainer.ManaHandler.AddMana(1);
+                mana.Stop();
             }
         }
     }

@@ -14,17 +14,13 @@ public class DeathBehaviour : MonoBehaviour
     {
         var position = new Vector3(transform.position.x, 0.5f, transform.position.z);
         var count = Random.Range(10, 100);
-        DeathEvent?.Invoke();
         var mana = GetManaEvent?.Invoke();
-        
         if (mana != null)
         {
-            Debug.Log("Mana");
             mana.SetCount(count);
             mana.SetPosition(position);
             mana.Play();
         }
-        
-        gameObject.SetActive(false);
+        DeathEvent?.Invoke();
     }
 }

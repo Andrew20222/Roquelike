@@ -10,7 +10,8 @@ namespace Unit.Player
         [SerializeField] private HealthStatsBehaviour healthStatsBehaviour;
         [SerializeField] private float maxMana;
         [SerializeField] private float maxHp;
-        
+
+        public bool isAlive { get; }
         public bool IsEnemy { get; private set; }
         public IManaHandler ManaHandler { get; private set; }
         public IHealView HealView { get; private set; }

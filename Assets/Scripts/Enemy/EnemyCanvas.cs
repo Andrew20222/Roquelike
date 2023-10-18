@@ -1,44 +1,44 @@
-using System;
-using Interfaces;
+using System.Collections.Generic;
 using Pools;
 using UnityEngine;
 
 namespace Enemy
 {
-    public class EnemyCanvas : MonoBehaviour, ICanvasPoolable<EnemyCanvas>
+    public class EnemyCanvas : MonoBehaviour
     {
-        [SerializeField] private EnemyResourceLinker enemyResourceLinker;
-        private IStopObservable _stopObservable;
+        [SerializeField] private EnemyResourceLinker prefab;
+        [SerializeField] private int minCount;
+        private Queue<IPoolable<EnemyResourceLinker>> _instances;
 
-        public void SpawnSlider(EnemyContainer enemyContainer)
+        private void Awake()
         {
-
+            _instances = new Queue<IPoolable<EnemyResourceLinker>>();
+            for (int i = 0; i < minCount; i++)
+            {
+                AddInstance();
+            }
         }
 
-        public event Action<EnemyCanvas> ReturnInPool;
-        public void Play()
+        private void AddInstance()
         {
-            
+            var instance = Instantiate(prefab, transform);
+            instance.ReturnInPool += ReturnInPool;
+            _instances.Enqueue(instance);
+        }
+        
+        private void ReturnInPool(EnemyResourceLinker value)
+        {
+            _instances.Enqueue(value);
         }
 
-        public void SetPosition(Vector3 position)
+        public IPoolable<EnemyResourceLinker> GetInPool()
         {
-            transform.position = position;
-        }
+            if (_instances.Count == 0)
+            {
+                AddInstance();
+            }
 
-        public void SetCount(int count){ }
-
-        public void SetStoppable(IStopObservable stopObservable)
-        {
-        }
-
-        public void Play(EnemyContainer enemyContainer)
-        {
-            var instance = Instantiate(enemyResourceLinker, transform);
-            
-            instance.EnemyPositionTracker.Init(enemyContainer.HeadUp);
-            enemyContainer.HealView.OnHealthChangeEvent += instance.ResourseSlider.SetValue;
-            enemyContainer.HealView.OnDeathEvent += () => Destroy(instance.gameObject);
+            return _instances.Dequeue();
         }
     }
 }
