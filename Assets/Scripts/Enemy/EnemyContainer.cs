@@ -30,7 +30,7 @@ namespace Enemy
             HealView.OnDeathEvent += HealDeath;
             DeathBehaviour.DeathEvent += Death;
             enemyMove.Init(playerContainer.transform);
-            enemyAttack.Init(playerContainer);
+            enemyAttack.Init(playerContainer, playerContainer.transform);
             isAlive = false;
         }
 

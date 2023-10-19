@@ -10,9 +10,9 @@ namespace Enemy
         private Transform _player;
         private IDamageable _damageable;
 
-        public void Init(IDamageable damageable)
+        public void Init(IDamageable damageable, Transform playerTransform)
         {
-            _player = damageable as Transform;
+            _player = playerTransform;
             _damageable = damageable;
         }
 
@@ -23,8 +23,12 @@ namespace Enemy
             var dist = Vector3.Distance(transform.position, _player.position);
 
             if (!(dist < distanceToAttack)) return;
+            
             if (!_damageable.IsEnemy)
+            {
                 _damageable.TakeDamage(damage);
+                Debug.Log("Attack");
+            }
         }
     }
 }
