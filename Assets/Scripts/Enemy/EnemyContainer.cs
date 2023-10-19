@@ -24,13 +24,13 @@ namespace Enemy
         private IStopObservable _stopObservable;
         private bool _isStop;
 
-        public void Init(PlayerContainer playerContainer)
+        public void Init(Container container)
         {
             HealView = healthStatsBehaviour;
             HealView.OnDeathEvent += HealDeath;
             DeathBehaviour.DeathEvent += Death;
-            enemyMove.Init(playerContainer.transform);
-            enemyAttack.Init(playerContainer, playerContainer.transform);
+            enemyMove.Init(container.transform);
+            enemyAttack.Init(container, container.transform);
             isAlive = false;
         }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StopController : MonoBehaviour, IStopObservable
 {
-    public event Action<bool> StopEvent;
+    private event Action<bool> StopEvent;
         
     public void OnStopCallback(bool value) => StopEvent?.Invoke(value);
 

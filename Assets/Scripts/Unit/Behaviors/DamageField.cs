@@ -11,6 +11,7 @@ public class DamageField : MonoBehaviour
     private List<IDamageable> _actualEnemies;
     private List<IDamageable> _oldEnemies;
     private Coroutine _damageLoop;
+    private bool _isStop;
 
     private void Awake()
     {
@@ -18,6 +19,7 @@ public class DamageField : MonoBehaviour
         _damageLoop = StartCoroutine(DamageLoop());
     }
 
+    public void UpdateStop(bool value) => _isStop = value;
     private void OnDestroy()
     {
         StopCoroutine(_damageLoop);
@@ -56,7 +58,7 @@ public class DamageField : MonoBehaviour
         for (;;)
         {
             yield return new WaitForSeconds(damageDelay);
-
+            if(_isStop) continue;
             _oldEnemies = new List<IDamageable>(_actualEnemies);
 
             foreach (var damageable in _oldEnemies)

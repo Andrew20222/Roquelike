@@ -1,13 +1,15 @@
-﻿using Interfaces;
+﻿using System;
+using Interfaces;
 using Mana;
 using UnityEngine;
 
 namespace Unit.Player
 {
-    public class PlayerContainer : MonoBehaviour, IDamageable
+    public class Container : MonoBehaviour, IDamageable
     {
         [SerializeField] private ManaStats manaStats;
         [SerializeField] private HealthStatsBehaviour healthStatsBehaviour;
+        [SerializeField] private DamageField damageField;
         [SerializeField] private float maxMana;
         [SerializeField] private float maxHp;
 
@@ -27,11 +29,17 @@ namespace Unit.Player
             IsEnemy = false;
         }
 
+        public void SubscribeStop(Action<Action<bool>> subscribe)
+        {
+            subscribe?.Invoke(damageField.UpdateStop);
+        }
+
         private void Start()
         {
             manaStats.SetMaxValue(maxMana);
             HealView.SetMaxHealth(maxHp);
         }
+        public void Restart(){}
 
         public void TakeDamage(float damage)
         {

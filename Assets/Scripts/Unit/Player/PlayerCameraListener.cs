@@ -13,7 +13,7 @@ public class PlayerCameraListener : MonoBehaviour
       playerSpawner.SpawnPlayerEvent += FillFields;
    }
 
-   private void FillFields(PlayerContainer player)
+   private void FillFields(Container player)
    {
       var transformPlayer = player.transform;
       cinemachineVirtualCamera.Follow = transformPlayer;

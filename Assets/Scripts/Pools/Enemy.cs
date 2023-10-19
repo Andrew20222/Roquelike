@@ -14,16 +14,16 @@ namespace Pools
         [SerializeField] private StopController stopController;
         [SerializeField] private int minCount;
         private Queue<IPoolable<EnemyContainer>> _instances;
-        private PlayerContainer _playerContainer;
+        private Container container;
 
         private void Awake()
         {
             playerSpawner.SpawnPlayerEvent += OnSpawnPlayer;
         }
 
-        private void OnSpawnPlayer(PlayerContainer container)
+        private void OnSpawnPlayer(Container container)
         {
-            _playerContainer = container;
+            this.container = container;
             _instances = new Queue<IPoolable<EnemyContainer>>();
             for (int i = 0; i < minCount; i++)
             {
@@ -34,7 +34,7 @@ namespace Pools
         {
             var instance = Instantiate(prefab);
             instance.ReturnInPool += ReturnInPool;
-            instance.Init(_playerContainer);
+            instance.Init(container);
             instance.DeathBehaviour.GetManaEvent += manaPool.GetInPool;
             instance.SetStoppable(stopController);
             _instances.Enqueue(instance);

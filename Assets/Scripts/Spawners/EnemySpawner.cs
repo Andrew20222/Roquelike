@@ -18,7 +18,7 @@ namespace Spawners
         [SerializeField] private float timeToSpawn = 1f;
         [SerializeField] private float minDistanceToSpawn = 5f;
 
-        private PlayerContainer _player;
+        private Container _player;
         private Coroutine _spawnCoroutine;
         private bool _isStop;
 
@@ -27,11 +27,11 @@ namespace Spawners
             spawner.SpawnPlayerEvent += SpawnPlayer;
         }
 
-        private void SpawnPlayer(PlayerContainer container)
+        private void SpawnPlayer(Container container)
         {
             _player = container;
-            stopController.StopEvent += UpdateStop;
-            if(_spawnCoroutine == null) _spawnCoroutine = StartCoroutine(Spawn());
+            stopController.Subscribe(UpdateStop);
+            if (_spawnCoroutine == null) _spawnCoroutine = StartCoroutine(Spawn());
         }
 
         private void UpdateStop(bool value)
