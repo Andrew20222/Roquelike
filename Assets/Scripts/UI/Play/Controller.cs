@@ -1,3 +1,4 @@
+using DefaultNamespace;
 using Spawners;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace UI.Play
         [SerializeField] private Win.Controller winScreen;
         [SerializeField] private Pause.Controller pauseScreen;
         [SerializeField] private StopController stopController;
+        [SerializeField] private TimeStats timeStats;
         private RechangePanel _rechangePanel;
 
         private void Awake()
@@ -19,6 +21,7 @@ namespace UI.Play
             playerSpawner.SpawnPlayerEvent += gameScreen.SetPlayer;
             playerSpawner.SpawnPlayerEvent += container => container.HealView.OnDeathEvent += SetLoseScreen;
             pauseScreen.ContinueEvent += () => stopController.OnStopCallback(false);
+            timeStats.GetTimer().TimeIsOver += SetWinScreen;
             stopController.Subscribe(UpdateStop);
             SetGameScreen();
         }

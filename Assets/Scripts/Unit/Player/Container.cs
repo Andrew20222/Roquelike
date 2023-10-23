@@ -1,4 +1,5 @@
 ﻿using System;
+using DefaultNamespace;
 using Interfaces;
 using Mana;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace Unit.Player
         [SerializeField] private ManaStats manaStats;
         [SerializeField] private HealthStatsBehaviour healthStatsBehaviour;
         [SerializeField] private DamageField damageField;
+        [SerializeField] private RestartController restartController;
         [SerializeField] private float maxMana;
         [SerializeField] private float maxHp;
 
@@ -23,6 +25,7 @@ namespace Unit.Player
 
         private void Awake()
         {
+            restartController.OnRestartCallback(false);
             ManaHandler = manaStats;
             HealView = healthStatsBehaviour;
             HealView.OnDeathEvent += DeathBehaviour.Death;
@@ -39,7 +42,12 @@ namespace Unit.Player
             manaStats.SetMaxValue(maxMana);
             HealView.SetMaxHealth(maxHp);
         }
-        public void Restart(){}
+
+        public void Restart()
+        {
+            manaStats.SetMaxValue(maxMana);
+            HealView.SetMaxHealth(maxHp);
+        }
 
         public void TakeDamage(float damage)
         {
