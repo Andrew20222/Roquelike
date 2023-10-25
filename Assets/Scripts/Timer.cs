@@ -6,14 +6,11 @@ namespace DefaultNamespace
 {
     public class Timer
     {
-        public event Action<float> HasBeenUpdated;
+        public event Action<float, float> HasBeenUpdated;
         public event Action TimeIsOver;
         private float _time;
         private float _remainigTime;
-        private IEnumerator _countdown;
-        private MonoBehaviour _context;
-
-        public Timer(MonoBehaviour context) => _context = context;
+        private Coroutine _countdown;
 
         public void Set(float time)
         {
@@ -21,21 +18,28 @@ namespace DefaultNamespace
             _remainigTime = _time;
         }
 
-        public void StartCountingTime()
+        public void StartCountingTime(Func<IEnumerator, Coroutine> startCoroutine)
         {
-            if (_countdown != null)
-                _context.StartCoroutine(_countdown);
+            if (_countdown != null) return;
+            _countdown = startCoroutine.Invoke(Countdown());
+        }
+
+        public void StopCountingTime(Action<Coroutine> stopCoroutine)
+        {
+            if (_countdown!=null)
+            {
+                stopCoroutine.Invoke(_countdown);
+            }
         }
 
         private IEnumerator Countdown()
         {
             while (_remainigTime >= 0)
             {
-                _remainigTime -= Time.deltaTime;
-                HasBeenUpdated?.Invoke(_remainigTime/_time);
-                yield return null;
+                yield return new WaitForSeconds(1f);
+                _remainigTime--;
+                HasBeenUpdated?.Invoke(_remainigTime, _time);
             }
-            
             TimeIsOver?.Invoke();
         }
 

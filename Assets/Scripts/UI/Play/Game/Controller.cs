@@ -1,4 +1,5 @@
-﻿using Unit.Player;
+﻿using System;
+using Unit.Player;
 using UnityEngine;
 
 namespace UI.Play.Game
@@ -7,8 +8,10 @@ namespace UI.Play.Game
     {
         [SerializeField] private ResourseSlider manaSlider;
         [SerializeField] private ResourseSlider hpSlider;
+        [SerializeField] private ResourseSlider timeSlider;
         [SerializeField] private CanvasGroup canvasGroup;
         private Container container;
+        public Action<float, float> OnTimeChanged => timeSlider.SetValue;
 
         public void SetPlayer(Container player)
         {
@@ -16,6 +19,7 @@ namespace UI.Play.Game
             container.ManaHandler.OnUpdateMana += manaSlider.SetValue;
             container.HealView.OnHealthChangeEvent += hpSlider.SetValue;
         }
+        
 
         public void Hide()
         {

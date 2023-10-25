@@ -4,6 +4,7 @@ using Enemy;
 using Pools;
 using Unit.Player;
 using UnityEngine;
+using Container = Enemy.Container;
 using Random = UnityEngine.Random;
 
 namespace Spawners
@@ -14,20 +15,23 @@ namespace Spawners
         [SerializeField] private Pools.Enemy enemyPool;
         [SerializeField] private EnemyCanvas enemyPoolCanvas;
         [SerializeField] private StopController stopController;
+        [SerializeField] private Observer winObserver;
         [SerializeField] private Transform[] spawnsPos;
         [SerializeField] private float timeToSpawn = 1f;
         [SerializeField] private float minDistanceToSpawn = 5f;
-
-        private Container _player;
+        private IObserverListenable _winObserverListenable;
+        private Unit.Player.Container _player;
         private Coroutine _spawnCoroutine;
         private bool _isStop;
 
         private void Awake()
         {
             spawner.SpawnPlayerEvent += SpawnPlayer;
+            _winObserverListenable = winObserver;
+            _winObserverListenable.Subscribe(() => UpdateStop(true));
         }
 
-        private void SpawnPlayer(Container container)
+        private void SpawnPlayer(Unit.Player.Container container)
         {
             _player = container;
             stopController.Subscribe(UpdateStop);
@@ -50,7 +54,10 @@ namespace Spawners
 
         private void OnDestroy()
         {
+            spawner.SpawnPlayerEvent -= SpawnPlayer;
             if (_spawnCoroutine != null) StopCoroutine(_spawnCoroutine);
+            stopController.Unsubscribe(UpdateStop);
+            _winObserverListenable.Unsubscribe(() => UpdateStop(true));
         }
 
         private IEnumerator Spawn()
@@ -72,8 +79,8 @@ namespace Spawners
                 var enemy = enemyPool.GetInPool();
                 var canvas = enemyPoolCanvas.GetInPool();
                 var slider = (EnemyResourceLinker)canvas;
-                var container = (EnemyContainer)enemy;
-
+                var container = (Container)enemy;
+                _winObserverListenable.Subscribe(container.ReturnInPoolCallback);
                 container.HealView.OnHealthChangeEvent += slider.ResourseSlider.SetValue;
                 slider.EnemyPositionTracker.Init(container.HeadUp);
                 container.DeathEvent += slider.Stop;

@@ -6,9 +6,9 @@ using UnityEngine;
 
 namespace Enemy
 {
-    public class EnemyContainer : MonoBehaviour, IDamageable, IPoolable<EnemyContainer>
+    public class Container : MonoBehaviour, IDamageable, IPoolable<Container>
     {
-        public event Action<EnemyContainer> ReturnInPool;
+        public event Action<Container> ReturnInPool;
 
         [SerializeField] private EnemyAttack enemyAttack;
         [SerializeField] private EnemyMove enemyMove;
@@ -24,7 +24,7 @@ namespace Enemy
         private IStopObservable _stopObservable;
         private bool _isStop;
 
-        public void Init(Container container)
+        public void Init(Unit.Player.Container container)
         {
             HealView = healthStatsBehaviour;
             HealView.OnDeathEvent += HealDeath;
@@ -66,6 +66,11 @@ namespace Enemy
         }
 
         private void Death()
+        {
+            ReturnInPoolCallback();
+        }
+
+        public void ReturnInPoolCallback()
         {
             ReturnInPool?.Invoke(this);
         }

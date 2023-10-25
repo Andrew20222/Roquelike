@@ -13,7 +13,9 @@ namespace Input
         [SerializeField] private PlayerSpawner playerSpawner;
         [SerializeField] private StopController stopController;
         [SerializeField] private Observer dieObserver;
+        [SerializeField] private Observer winObserver;
         private IObserverListenable _dieListener;
+        private IObserverListenable _winListener;
         private PlayerMove _playerMove;
         private bool _isStop;
         private bool _isDie;
@@ -23,6 +25,8 @@ namespace Input
         {
             _isDie = false;
             _dieListener = dieObserver;
+            _winListener = winObserver;
+            _winListener.Subscribe(()=>UpdateStop(true));
             _dieListener.Subscribe(Die);
             stopController.Subscribe(UpdateStop);
             playerSpawner.SpawnPlayerEvent += playerContainer => _playerMove = playerContainer.PlayerMove;
@@ -56,6 +60,7 @@ namespace Input
         {
             _dieListener.Unsubscribe(Die);
             stopController.Unsubscribe(UpdateStop);
+            _winListener.Unsubscribe(()=>UpdateStop(true));
         }
     }
 }

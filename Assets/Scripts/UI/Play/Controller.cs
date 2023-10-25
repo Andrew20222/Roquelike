@@ -21,7 +21,8 @@ namespace UI.Play
             playerSpawner.SpawnPlayerEvent += gameScreen.SetPlayer;
             playerSpawner.SpawnPlayerEvent += container => container.HealView.OnDeathEvent += SetLoseScreen;
             pauseScreen.ContinueEvent += () => stopController.OnStopCallback(false);
-            timeStats.GetTimer().TimeIsOver += SetWinScreen;
+            timeStats.TimeUpdateEvent += gameScreen.OnTimeChanged;
+            timeStats.TimeIsOverEvent += SetWinScreen;
             stopController.Subscribe(UpdateStop);
             SetGameScreen();
         }

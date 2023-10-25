@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 753930277070924260}
   - component: {fileID: 753930277070924280}
   - component: {fileID: 7152855194110049546}
+  - component: {fileID: 4968553457898217063}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -55,6 +56,7 @@ MonoBehaviour:
   manaStats: {fileID: 753930277070924280}
   healthStatsBehaviour: {fileID: 753930277070924281}
   damageField: {fileID: 753930278071120140}
+  restartController: {fileID: 4968553457898217063}
   maxMana: 50
   maxHp: 200
   <PlayerMove>k__BackingField: {fileID: 753930277070924283}
@@ -133,6 +135,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 916cc71d9d7440b3abde883cab788df0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4968553457898217063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753930277070924262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 619b15f47316e8143b5eb438c9ad24f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &753930277079405886
@@ -284,7 +298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7f48ba5317a9bb4aad4f69e45cb222a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerContainer: {fileID: 753930277070924282}
+  container: {fileID: 753930277070924282}
 --- !u!1 &753930278071120143
 GameObject:
   m_ObjectHideFlags: 0

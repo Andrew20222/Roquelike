@@ -3,33 +3,35 @@ using Enemy;
 using Spawners;
 using Unit.Player;
 using UnityEngine;
+using Container = Enemy.Container;
 
 namespace Pools
 {
     public class Enemy : MonoBehaviour
     {
-        [SerializeField] private EnemyContainer prefab;
+        [SerializeField] private Container prefab;
         [SerializeField] private PlayerSpawner playerSpawner;
         [SerializeField] private Mana manaPool;
         [SerializeField] private StopController stopController;
         [SerializeField] private int minCount;
-        private Queue<IPoolable<EnemyContainer>> _instances;
-        private Container container;
+        private Queue<IPoolable<Container>> _instances;
+        private Unit.Player.Container container;
 
         private void Awake()
         {
             playerSpawner.SpawnPlayerEvent += OnSpawnPlayer;
         }
 
-        private void OnSpawnPlayer(Container container)
+        private void OnSpawnPlayer(Unit.Player.Container container)
         {
             this.container = container;
-            _instances = new Queue<IPoolable<EnemyContainer>>();
+            _instances = new Queue<IPoolable<Container>>();
             for (int i = 0; i < minCount; i++)
             {
                 AddInstance();
             }
         }
+
         private void AddInstance()
         {
             var instance = Instantiate(prefab);
@@ -39,15 +41,15 @@ namespace Pools
             instance.SetStoppable(stopController);
             _instances.Enqueue(instance);
         }
-        
-        private void ReturnInPool(EnemyContainer value)
+
+        private void ReturnInPool(Container value)
         {
             value.Stop();
-            value.SetPosition(new Vector3(0,-1,0));
+            value.SetPosition(new Vector3(0, -1, 0));
             _instances.Enqueue(value);
         }
 
-        public IPoolable<EnemyContainer> GetInPool()
+        public IPoolable<Container> GetInPool()
         {
             if (_instances.Count == 0)
             {

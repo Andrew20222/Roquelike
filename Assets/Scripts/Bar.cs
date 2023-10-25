@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace DefaultNamespace
 {
-    public abstract class Bar : MonoBehaviour
+    public class Bar : MonoBehaviour
     {
-        [SerializeField] private Image _filler;
+        [SerializeField] private Image filler;
 
-        protected void OnValueChanged(float valueInParts)
-            => _filler.fillAmount = valueInParts;
+        public void OnValueChanged(float valueInParts)
+            => filler.fillAmount = valueInParts;
     }
 }
