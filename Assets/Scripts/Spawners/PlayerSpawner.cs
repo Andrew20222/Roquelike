@@ -15,13 +15,14 @@ namespace Spawners
         [SerializeField] private Observer restartObserver;
         private Container _playerInstance;
         private IObserverListenable _restartInteface;
+        private IObserverCallbackable _dieCallbackable;
 
         private void Start()
         {
             _playerInstance = Instantiate(prefab);
-            IObserverCallbackable callbackable = dieObserver;
+            _dieCallbackable = dieObserver;
             _restartInteface = restartObserver;
-            _playerInstance.DeathBehaviour.DeathEvent += () => callbackable.OnCallback();
+            _playerInstance.DeathBehaviour.DeathEvent += () => _dieCallbackable.OnCallback();
             _restartInteface.Subscribe(_playerInstance.Restart);
             _playerInstance.SubscribeStop(stopController.Subscribe);
             stopController.OnStopCallback(false);

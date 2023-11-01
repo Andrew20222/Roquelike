@@ -1,3 +1,4 @@
+using System;
 using DefaultNamespace;
 using Spawners;
 using UnityEngine;
@@ -13,17 +14,25 @@ namespace UI.Play
         [SerializeField] private Pause.Controller pauseScreen;
         [SerializeField] private StopController stopController;
         [SerializeField] private TimeStats timeStats;
+        [SerializeField] private Observer restartObserver;
+        private IObserverListenable _restartListenable;
+        private IObserverCallbackable _restartCallbackable;
         private RechangePanel _rechangePanel;
 
         private void Awake()
         {
+            _restartListenable = restartObserver;
+            _restartCallbackable = restartObserver;
             _rechangePanel = new RechangePanel();
             playerSpawner.SpawnPlayerEvent += gameScreen.SetPlayer;
             playerSpawner.SpawnPlayerEvent += container => container.HealView.OnDeathEvent += SetLoseScreen;
             pauseScreen.ContinueEvent += () => stopController.OnStopCallback(false);
+            winScreen.RestartEvent += () => _restartCallbackable.OnCallback();
+            loseScreen.RestartEvent += () => _restartCallbackable.OnCallback();
             timeStats.TimeUpdateEvent += gameScreen.OnTimeChanged;
             timeStats.TimeIsOverEvent += SetWinScreen;
             stopController.Subscribe(UpdateStop);
+            _restartListenable.Subscribe(SetGameScreen);
             SetGameScreen();
         }
 
@@ -32,7 +41,7 @@ namespace UI.Play
             if (value) SetPauseScreen();
             else SetGameScreen();
         }
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
         private void SetGameScreen()
         {
             _rechangePanel.SetPanel(gameScreen);
@@ -51,6 +60,11 @@ namespace UI.Play
         private void SetPauseScreen()
         {
             _rechangePanel.SetPanel(pauseScreen);
+        }
+
+        private void OnDestroy()
+        {
+            _restartListenable.Unsubscribe(SetGameScreen);
         }
     }
 }

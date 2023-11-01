@@ -16,18 +16,26 @@ namespace Spawners
         [SerializeField] private EnemyCanvas enemyPoolCanvas;
         [SerializeField] private StopController stopController;
         [SerializeField] private Observer winObserver;
+        [SerializeField] private Observer dieObserver;
+        [SerializeField] private Observer restartObserver;
         [SerializeField] private Transform[] spawnsPos;
         [SerializeField] private float timeToSpawn = 1f;
         [SerializeField] private float minDistanceToSpawn = 5f;
         private IObserverListenable _winObserverListenable;
+        private IObserverListenable _restartListenable;
+        private IObserverListenable _dieListenable;
         private Unit.Player.Container _player;
         private Coroutine _spawnCoroutine;
         private bool _isStop;
 
         private void Awake()
         {
+            _dieListenable = dieObserver;
+            _restartListenable = restartObserver;
             spawner.SpawnPlayerEvent += SpawnPlayer;
             _winObserverListenable = winObserver;
+            _dieListenable.Subscribe(() => UpdateStop(true));
+            _restartListenable.Subscribe(() => UpdateStop(false));
             _winObserverListenable.Subscribe(() => UpdateStop(true));
         }
 
@@ -57,6 +65,8 @@ namespace Spawners
             spawner.SpawnPlayerEvent -= SpawnPlayer;
             if (_spawnCoroutine != null) StopCoroutine(_spawnCoroutine);
             stopController.Unsubscribe(UpdateStop);
+            _dieListenable.Subscribe(() => UpdateStop(true));
+            _restartListenable.Unsubscribe(() => UpdateStop(false));
             _winObserverListenable.Unsubscribe(() => UpdateStop(true));
         }
 

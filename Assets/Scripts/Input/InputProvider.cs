@@ -14,8 +14,10 @@ namespace Input
         [SerializeField] private StopController stopController;
         [SerializeField] private Observer dieObserver;
         [SerializeField] private Observer winObserver;
+        [SerializeField] private Observer restartObserver;
         private IObserverListenable _dieListener;
         private IObserverListenable _winListener;
+        private IObserverListenable _restartListenable;
         private PlayerMove _playerMove;
         private bool _isStop;
         private bool _isDie;
@@ -24,9 +26,11 @@ namespace Input
         private void Awake()
         {
             _isDie = false;
+            _restartListenable = restartObserver;
             _dieListener = dieObserver;
             _winListener = winObserver;
             _winListener.Subscribe(()=>UpdateStop(true));
+            _restartListenable.Subscribe(() => UpdateStop(false));
             _dieListener.Subscribe(Die);
             stopController.Subscribe(UpdateStop);
             playerSpawner.SpawnPlayerEvent += playerContainer => _playerMove = playerContainer.PlayerMove;
@@ -61,6 +65,7 @@ namespace Input
             _dieListener.Unsubscribe(Die);
             stopController.Unsubscribe(UpdateStop);
             _winListener.Unsubscribe(()=>UpdateStop(true));
+            _restartListenable.Subscribe(() => UpdateStop(false));
         }
     }
 }
