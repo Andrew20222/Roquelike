@@ -23,7 +23,6 @@ namespace Enemy
                 new Vector3((playerPosition - enemyPosition).normalized.x, 0,
                     (playerPosition - enemyPosition).normalized.z);
             var movement = direction * (speed * Time.deltaTime);
-
             characterController.Move(movement);
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using Interfaces;
 using Mana;
+using Unit.Behaviors.Stats;
 using UnityEngine;
 
 namespace Unit.Player
@@ -42,7 +43,7 @@ namespace Unit.Player
 
         public void Restart()
         {
-            manaStats.SetMaxValue(maxMana);
+            manaStats.RemoveAllMana();
             HealView.SetMaxHealth(maxHp);
         }
 

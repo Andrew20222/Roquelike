@@ -12,7 +12,7 @@ namespace DefaultNamespace
         [SerializeField] private Observer winObserver;
         [SerializeField] private Observer loseObserver;
         [SerializeField] private Observer restartObserver;
-        private IObserverCallbackable _observerCallbackable;
+        private IObserverCallbackable _winCallbackable;
         private IObserverListenable _loseListenable;
         private IObserverListenable _restartListenable;
         private Timer _timer;
@@ -22,14 +22,15 @@ namespace DefaultNamespace
         private void Awake()
         {
             _restartListenable = restartObserver;
-            _observerCallbackable = winObserver;
+            _winCallbackable = winObserver;
             _loseListenable = loseObserver;
             _loseListenable.Subscribe((() => OnStopUpdate(true)));
             _timer = new Timer();
             _timer.TimeIsOver += TimeIsOverEvent;
             _timer.HasBeenUpdated += TimeUpdateEvent;
-            _timer.TimeIsOver += _observerCallbackable.OnCallback;
+            _timer.TimeIsOver += _winCallbackable.OnCallback;
             _restartListenable.Subscribe(StartTimer);
+            stopController.Subscribe(OnStopUpdate);
         }
 
         private void Start()
@@ -40,11 +41,6 @@ namespace DefaultNamespace
         private void StartTimer()
         {
             _timer.StopCountingTime(StopCoroutine);
-            _timer = new Timer();
-            _timer.TimeIsOver += TimeIsOverEvent;
-            _timer.HasBeenUpdated += TimeUpdateEvent;
-            _timer.TimeIsOver += _observerCallbackable.OnCallback;
-            stopController.Subscribe(OnStopUpdate);
             _timer.Set(time);
             _timer.StartCountingTime(StartCoroutine);
         }

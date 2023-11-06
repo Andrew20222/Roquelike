@@ -4,9 +4,11 @@ namespace Mana
 {
     public interface IManaHandler
     {
+        event Action<float, float> OnUpdateMana;
         float CurrentValue { get;}
         float MaxValue { get;}
         void AddMana(float value);
-        event Action<float, float> OnUpdateMana;
+        void ReplishMana(float value);
+
     }
 }

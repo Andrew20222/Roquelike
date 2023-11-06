@@ -27,8 +27,7 @@ namespace UI.Play
             playerSpawner.SpawnPlayerEvent += gameScreen.SetPlayer;
             playerSpawner.SpawnPlayerEvent += container => container.HealView.OnDeathEvent += SetLoseScreen;
             pauseScreen.ContinueEvent += () => stopController.OnStopCallback(false);
-            winScreen.RestartEvent += () => _restartCallbackable.OnCallback();
-            loseScreen.RestartEvent += () => _restartCallbackable.OnCallback();
+
             timeStats.TimeUpdateEvent += gameScreen.OnTimeChanged;
             timeStats.TimeIsOverEvent += SetWinScreen;
             stopController.Subscribe(UpdateStop);
@@ -36,12 +35,18 @@ namespace UI.Play
             SetGameScreen();
         }
 
+        private void Start()
+        {
+            winScreen.RestartEvent += _restartCallbackable.OnCallback;
+            loseScreen.RestartEvent += _restartCallbackable.OnCallback;
+        }
+
         private void UpdateStop(bool value)
         {
             if (value) SetPauseScreen();
             else SetGameScreen();
         }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+
         private void SetGameScreen()
         {
             _rechangePanel.SetPanel(gameScreen);
@@ -65,6 +70,12 @@ namespace UI.Play
         private void OnDestroy()
         {
             _restartListenable.Unsubscribe(SetGameScreen);
+            stopController.Unsubscribe(UpdateStop);
+            playerSpawner.SpawnPlayerEvent -= gameScreen.SetPlayer;
+            winScreen.RestartEvent -= _restartCallbackable.OnCallback;
+            loseScreen.RestartEvent -= _restartCallbackable.OnCallback;
+            timeStats.TimeUpdateEvent -= gameScreen.OnTimeChanged;
+            timeStats.TimeIsOverEvent -= SetWinScreen;
         }
     }
 }

@@ -90,14 +90,23 @@ namespace Spawners
                 var canvas = enemyPoolCanvas.GetInPool();
                 var slider = (EnemyResourceLinker)canvas;
                 var container = (Container)enemy;
-                _winObserverListenable.Subscribe(container.ReturnInPoolCallback);
                 container.HealView.OnHealthChangeEvent += slider.ResourseSlider.SetValue;
                 slider.EnemyPositionTracker.Init(container.HeadUp);
-                container.DeathEvent += slider.Stop;
+                container.DeathEvent += () => SliderUnsubsribe(slider, container);
+                Debug.Log($"Spawner: {position}");
                 enemy.SetPosition(position);
+                var primitive = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+                primitive.transform.position = position;
                 enemy.Play();
                 canvas.Play();
             }
+        }
+
+        private void SliderUnsubsribe(EnemyResourceLinker slider, Container container)
+        {
+            slider.EnemyPositionTracker.Init(null);
+            container.HealView.OnHealthChangeEvent -= slider.ResourseSlider.SetValue;
+            slider.Stop();
         }
     }
 }

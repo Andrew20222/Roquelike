@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using Interfaces;
 using Pools;
+using Unit.Behaviors.Stats;
 using Unit.Player;
 using UnityEngine;
 
@@ -13,6 +15,9 @@ namespace Enemy
         [SerializeField] private EnemyAttack enemyAttack;
         [SerializeField] private EnemyMove enemyMove;
         [SerializeField] private HealthStatsBehaviour healthStatsBehaviour;
+        [SerializeField] private GameObject view;
+        [SerializeField] private CapsuleCollider collider;
+        [SerializeField] private CharacterController controller;
         [SerializeField] private float maxHealthValue;
         public event Action DeathEvent;
         public bool isAlive { get; private set; }
@@ -22,7 +27,9 @@ namespace Enemy
         [field: SerializeField] public DeathBehaviour DeathBehaviour { get; private set; }
         [field: SerializeField] public Transform HeadUp { get; private set; }
         private IStopObservable _stopObservable;
+        private Coroutine _attackCoroutine;
         private bool _isStop;
+        private bool _isReturned;
 
         public void Init(Unit.Player.Container container)
         {
@@ -31,6 +38,7 @@ namespace Enemy
             DeathBehaviour.DeathEvent += Death;
             enemyMove.Init(container.transform);
             enemyAttack.Init(container, container.transform);
+            _attackCoroutine = StartCoroutine(Attack());
             isAlive = false;
         }
 
@@ -38,8 +46,8 @@ namespace Enemy
         {
             if (isAlive == false) return;
             if (_isStop) return;
-            enemyAttack.AttackPlayer();
-            enemyMove.Move();
+            if (_isReturned) return;
+          //  enemyMove.Move();
         }
 
         private void OnDestroy()
@@ -47,6 +55,7 @@ namespace Enemy
             _stopObservable.Unsubscribe(UpdateStop);
             HealView.OnDeathEvent -= HealDeath;
             DeathBehaviour.DeathEvent -= Death;
+            if (_attackCoroutine != null) StopCoroutine(_attackCoroutine);
         }
 
         public void TakeDamage(float damage)
@@ -72,7 +81,9 @@ namespace Enemy
 
         public void ReturnInPoolCallback()
         {
+            if (_isReturned) return;
             ReturnInPool?.Invoke(this);
+            _isReturned = true;
         }
 
         public void SetStoppable(IStopObservable stopObservable)
@@ -83,17 +94,36 @@ namespace Enemy
 
         public void Play()
         {
-            gameObject.SetActive(true);
-            isAlive = true;
+            view.SetActive(true);
             healthStatsBehaviour.SetMaxHealth(maxHealthValue);
+            isAlive = true;
+            _isReturned = false;
+            collider.enabled = true;
+            controller.enabled = true;
+            Debug.Log($"Enemy Play in Pos {transform.position}");
         }
 
         public void Stop()
         {
-            gameObject.SetActive(false);
+            view.SetActive(false);
             isAlive = false;
+            _isReturned = true;
+            collider.enabled = false;
+            controller.enabled = false;
+            Debug.Log($"Enemy Stop");
         }
 
+        private IEnumerator Attack()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(0.5f);
+                if (isAlive == false) continue;
+                if (_isStop) continue;
+                if (_isReturned) continue;
+                enemyAttack.AttackPlayer();
+            }
+        }
 
         public void SetPosition(Vector3 position)
         {

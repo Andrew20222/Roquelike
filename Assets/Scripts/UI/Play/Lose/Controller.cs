@@ -9,17 +9,22 @@ namespace UI.Play.Lose
         public event Action RestartEvent;
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private Button restartButton;
-        
+
         private void Start()
         {
-            restartButton.onClick.AddListener(RestartEvent.Invoke);
+            restartButton.onClick.AddListener(InvokeRestart);
+        }
+
+        private void InvokeRestart()
+        {
+            RestartEvent?.Invoke();
         }
 
         private void OnDestroy()
         {
-            if(RestartEvent != null)
-                restartButton.onClick.RemoveListener(RestartEvent.Invoke);
+            restartButton.onClick.RemoveListener(InvokeRestart);
         }
+
         public void Hide()
         {
             canvasGroup.alpha = 0;

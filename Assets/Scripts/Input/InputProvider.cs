@@ -21,7 +21,6 @@ namespace Input
         private PlayerMove _playerMove;
         private bool _isStop;
         private bool _isDie;
-        public event Action StopEvent;
 
         private void Awake()
         {
@@ -29,8 +28,8 @@ namespace Input
             _restartListenable = restartObserver;
             _dieListener = dieObserver;
             _winListener = winObserver;
-            _winListener.Subscribe(()=>UpdateStop(true));
-            _restartListenable.Subscribe(() => UpdateStop(false));
+            _winListener.Subscribe(() => UpdateStop(true));
+            _restartListenable.Subscribe(Restart);
             _dieListener.Subscribe(Die);
             stopController.Subscribe(UpdateStop);
             playerSpawner.SpawnPlayerEvent += playerContainer => _playerMove = playerContainer.PlayerMove;
@@ -41,6 +40,12 @@ namespace Input
         private void UpdateStop(bool value)
         {
             _isStop = value;
+        }
+
+        private void Restart()
+        {
+            _isStop = false;
+            _isDie = false;
         }
 
         private void Update()
@@ -64,8 +69,8 @@ namespace Input
         {
             _dieListener.Unsubscribe(Die);
             stopController.Unsubscribe(UpdateStop);
-            _winListener.Unsubscribe(()=>UpdateStop(true));
-            _restartListenable.Subscribe(() => UpdateStop(false));
+            _winListener.Unsubscribe(() => UpdateStop(true));
+            _restartListenable.Unsubscribe(Restart);
         }
     }
 }

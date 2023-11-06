@@ -27,7 +27,6 @@ namespace Enemy
             if (!_damageable.IsEnemy)
             {
                 _damageable.TakeDamage(damage);
-                Debug.Log("Attack");
             }
         }
     }

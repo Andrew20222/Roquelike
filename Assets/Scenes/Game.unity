@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3953,8 +3953,10 @@ MonoBehaviour:
   prefab: {fileID: 3666816505359627430, guid: e9e552166bbaa524a96eecac3d767bbd, type: 3}
   playerSpawner: {fileID: 1889823950}
   manaPool: {fileID: 1806597085}
+  winObserver: {fileID: 928143902}
+  dieObserver: {fileID: 59906176}
   stopController: {fileID: 1598182440}
-  minCount: 10
+  minCount: 1
 --- !u!4 &1763841861
 Transform:
   m_ObjectHideFlags: 0
@@ -4538,7 +4540,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 4851386127238886191, guid: 91ddf284ac37f1f44adfd56e9c923476, type: 3}
-  minCount: 10
+  winObserver: {fileID: 928143902}
+  dieObserver: {fileID: 59906176}
+  minCount: 1
 --- !u!224 &505575242464724709
 RectTransform:
   m_ObjectHideFlags: 0

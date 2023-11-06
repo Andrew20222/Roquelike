@@ -33,8 +33,11 @@ public class DamageField : MonoBehaviour
         {
             if (damageable.IsEnemy)
             {
-                damageable.TakeDamage(damage);
-                _actualEnemies.Add(damageable);
+                if (damageable.isAlive)
+                {
+                    damageable.TakeDamage(damage);
+                    _actualEnemies.Add(damageable);
+                }
             }
         }
     }

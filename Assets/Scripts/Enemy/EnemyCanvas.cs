@@ -7,11 +7,17 @@ namespace Enemy
     public class EnemyCanvas : MonoBehaviour
     {
         [SerializeField] private EnemyResourceLinker prefab;
+        [SerializeField] private Observer winObserver;
+        [SerializeField] private Observer dieObserver;
         [SerializeField] private int minCount;
         private Queue<IPoolable<EnemyResourceLinker>> _instances;
+        private IObserverListenable _dieListenable;
+        private IObserverListenable _winListenable;
 
         private void Awake()
         {
+            _dieListenable = dieObserver;
+            _winListenable = winObserver;
             _instances = new Queue<IPoolable<EnemyResourceLinker>>();
             for (int i = 0; i < minCount; i++)
             {
@@ -23,9 +29,11 @@ namespace Enemy
         {
             var instance = Instantiate(prefab, transform);
             instance.ReturnInPool += ReturnInPool;
+            _dieListenable.Subscribe(instance.Stop);
+            _winListenable.Subscribe(instance.Stop);
             _instances.Enqueue(instance);
         }
-        
+
         private void ReturnInPool(EnemyResourceLinker value)
         {
             _instances.Enqueue(value);

@@ -12,13 +12,19 @@ namespace Pools
         [SerializeField] private Container prefab;
         [SerializeField] private PlayerSpawner playerSpawner;
         [SerializeField] private Mana manaPool;
+        [SerializeField] private Observer winObserver;
+        [SerializeField] private Observer dieObserver;
         [SerializeField] private StopController stopController;
         [SerializeField] private int minCount;
         private Queue<IPoolable<Container>> _instances;
         private Unit.Player.Container container;
+        private IObserverListenable _dieListenable;
+        private IObserverListenable _winListenable;
 
         private void Awake()
         {
+            _dieListenable = dieObserver;
+            _winListenable = winObserver;
             playerSpawner.SpawnPlayerEvent += OnSpawnPlayer;
         }
 
@@ -38,6 +44,8 @@ namespace Pools
             instance.ReturnInPool += ReturnInPool;
             instance.Init(container);
             instance.DeathBehaviour.GetManaEvent += manaPool.GetInPool;
+            _winListenable.Subscribe(instance.ReturnInPoolCallback);
+            _dieListenable.Subscribe(instance.ReturnInPoolCallback);
             instance.SetStoppable(stopController);
             _instances.Enqueue(instance);
         }
