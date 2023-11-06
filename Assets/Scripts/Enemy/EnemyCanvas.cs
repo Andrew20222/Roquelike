@@ -29,8 +29,6 @@ namespace Enemy
         {
             var instance = Instantiate(prefab, transform);
             instance.ReturnInPool += ReturnInPool;
-            _dieListenable.Subscribe(instance.Stop);
-            _winListenable.Subscribe(instance.Stop);
             _instances.Enqueue(instance);
         }
 

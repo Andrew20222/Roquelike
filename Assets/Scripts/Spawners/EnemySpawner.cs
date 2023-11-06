@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
+using Better.Attributes.Runtime;
 using Enemy;
 using Pools;
 using Unit.Player;
@@ -27,9 +29,11 @@ namespace Spawners
         private Unit.Player.Container _player;
         private Coroutine _spawnCoroutine;
         private bool _isStop;
+        private Dictionary<Container, EnemyResourceLinker> _resourceLinkers;
 
         private void Awake()
         {
+            _resourceLinkers = new Dictionary<Container, EnemyResourceLinker>();
             _dieListenable = dieObserver;
             _restartListenable = restartObserver;
             spawner.SpawnPlayerEvent += SpawnPlayer;
@@ -39,11 +43,42 @@ namespace Spawners
             _winObserverListenable.Subscribe(() => UpdateStop(true));
         }
 
+        private bool _isDeactivate;
+
+        [EditorButton]
+        public void Deactivate()
+        {
+            _isDeactivate = true;
+        }
+
         private void SpawnPlayer(Unit.Player.Container container)
         {
             _player = container;
             stopController.Subscribe(UpdateStop);
             if (_spawnCoroutine == null) _spawnCoroutine = StartCoroutine(Spawn());
+        }
+
+        [EditorButton]
+        public void SpawnEditor()
+        {
+            var currentPoint = Random.Range(0, spawnsPos.Length);
+            var position = spawnsPos[currentPoint].position;
+            var enemy = enemyPool.GetInPool();
+            var canvas = enemyPoolCanvas.GetInPool();
+            var slider = (EnemyResourceLinker)canvas;
+            var container = (Container)enemy;
+            if (_resourceLinkers.ContainsKey(container))
+            {
+                SliderUnsubsribe(container);
+            }
+            _resourceLinkers.Add(container, slider);
+            container.HealView.OnHealthChangeEvent += slider.ResourseSlider.SetValue;
+            slider.EnemyPositionTracker.Init(container.HeadUp);
+            container.ReturnInPool += SliderUnsubsribe;
+            enemy.SetPosition(position);
+            enemy.Play();
+            canvas.Play();
+        
         }
 
         private void UpdateStop(bool value)
@@ -74,6 +109,7 @@ namespace Spawners
         {
             for (;;)
             {
+                if (_isDeactivate) yield break;
                 yield return new WaitForSeconds(timeToSpawn);
                 var currentPoint = Random.Range(0, spawnsPos.Length);
 
@@ -90,23 +126,30 @@ namespace Spawners
                 var canvas = enemyPoolCanvas.GetInPool();
                 var slider = (EnemyResourceLinker)canvas;
                 var container = (Container)enemy;
+                if (_resourceLinkers.ContainsKey(container))
+                {
+                    SliderUnsubsribe(container);
+                }
+                _resourceLinkers.Add(container, slider);
                 container.HealView.OnHealthChangeEvent += slider.ResourseSlider.SetValue;
                 slider.EnemyPositionTracker.Init(container.HeadUp);
-                container.DeathEvent += () => SliderUnsubsribe(slider, container);
-                Debug.Log($"Spawner: {position}");
+                container.ReturnInPool += SliderUnsubsribe;
                 enemy.SetPosition(position);
-                var primitive = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-                primitive.transform.position = position;
                 enemy.Play();
                 canvas.Play();
             }
         }
 
-        private void SliderUnsubsribe(EnemyResourceLinker slider, Container container)
+        private void SliderUnsubsribe(Container container)
         {
-            slider.EnemyPositionTracker.Init(null);
-            container.HealView.OnHealthChangeEvent -= slider.ResourseSlider.SetValue;
-            slider.Stop();
+            if (_resourceLinkers.TryGetValue(container, out EnemyResourceLinker value))
+            {
+                value.EnemyPositionTracker.Init(null);
+                container.HealView.OnHealthChangeEvent -= value.ResourseSlider.SetValue;
+                value.Stop();
+                container.ReturnInPool -= SliderUnsubsribe;
+                _resourceLinkers.Remove(container);
+            }
         }
     }
 }

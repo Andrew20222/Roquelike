@@ -47,7 +47,7 @@ namespace Enemy
             if (isAlive == false) return;
             if (_isStop) return;
             if (_isReturned) return;
-          //  enemyMove.Move();
+            enemyMove.Move();
         }
 
         private void OnDestroy()
