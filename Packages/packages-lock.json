@@ -45,12 +45,12 @@
       "source": "builtin",
       "dependencies": {
         "com.unity.ide.visualstudio": "2.0.18",
-        "com.unity.ide.rider": "3.0.24",
+        "com.unity.ide.rider": "3.0.21",
         "com.unity.ide.vscode": "1.2.5",
         "com.unity.editorcoroutines": "1.0.0",
         "com.unity.performance.profile-analyzer": "1.2.2",
         "com.unity.test-framework": "1.1.33",
-        "com.unity.testtools.codecoverage": "1.2.4"
+        "com.unity.testtools.codecoverage": "1.2.3"
       }
     },
     "com.unity.ide.rider": {
@@ -104,7 +104,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.testtools.codecoverage": {
-      "version": "1.2.4",
+      "version": "1.2.3",
       "depth": 1,
       "source": "registry",
       "dependencies": {
@@ -152,6 +152,39 @@
         "com.unity.modules.jsonserialize": "1.0.0"
       },
       "url": "https://packages.unity.com"
+    },
+    "com.uurha.betterattributes": {
+      "version": "2.1.45",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.uurha.bettereditortools": "1.0.67"
+      },
+      "url": "https://package.openupm.com"
+    },
+    "com.uurha.betterdatastructures": {
+      "version": "0.1.1",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
+    },
+    "com.uurha.bettereditortools": {
+      "version": "1.0.67",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {
+        "com.uurha.betterdatastructures": "0.1.1",
+        "com.uurha.betterextensions": "1.1.96"
+      },
+      "url": "https://package.openupm.com"
+    },
+    "com.uurha.betterextensions": {
+      "version": "1.1.96",
+      "depth": 2,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://package.openupm.com"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

@@ -16,6 +16,7 @@ namespace DefaultNamespace
         {
             _time = time;
             _remainigTime = _time;
+            HasBeenUpdated?.Invoke(_remainigTime, _time);
         }
 
         public void StartCountingTime(Func<IEnumerator, Coroutine> startCoroutine)
@@ -29,6 +30,7 @@ namespace DefaultNamespace
             if (_countdown!=null)
             {
                 stopCoroutine.Invoke(_countdown);
+                _countdown = null;
             }
         }
 
