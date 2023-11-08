@@ -1,4 +1,3 @@
-using System;
 using ObserverScripts.Character.Behaviour;
 using ObserverScripts.Triggers;
 using UnityEngine;

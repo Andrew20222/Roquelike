@@ -1,6 +1,7 @@
 ﻿using System;
 using Interfaces;
 using Mana;
+using Unit.Behaviors;
 using Unit.Behaviors.Stats;
 using UnityEngine;
 

@@ -55,7 +55,7 @@ MonoBehaviour:
   manaStats: {fileID: 753930277070924280}
   healthStatsBehaviour: {fileID: 753930277070924281}
   damageField: {fileID: 753930278071120140}
-  maxMana: 50
+  maxMana: 2
   maxHp: 200
   <PlayerMove>k__BackingField: {fileID: 753930277070924283}
   <DeathBehaviour>k__BackingField: {fileID: 7152855194110049546}

@@ -1,5 +1,3 @@
-using System;
-using DefaultNamespace;
 using Spawners;
 using UnityEngine;
 

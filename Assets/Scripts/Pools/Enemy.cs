@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using Enemy;
 using Spawners;
-using Unit.Player;
 using UnityEngine;
 using Container = Enemy.Container;
 

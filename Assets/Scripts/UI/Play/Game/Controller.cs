@@ -10,16 +10,35 @@ namespace UI.Play.Game
         [SerializeField] private ResourseSlider hpSlider;
         [SerializeField] private ResourseSlider timeSlider;
         [SerializeField] private CanvasGroup canvasGroup;
+        [SerializeField] private Ability.Controller abilityChanger;
         private Container container;
+        private RechangePanel _rechangePanel;
         public Action<float, float> OnTimeChanged => timeSlider.SetValue;
+
+        private void Awake()
+        {
+            _rechangePanel = new RechangePanel();
+            abilityChanger.SendSelectedAbility += (ability =>
+            {
+                Debug.Log(ability.ToString());
+                _rechangePanel.SetPanel(this);
+            });
+        }
 
         public void SetPlayer(Container player)
         {
             container = player;
             container.ManaHandler.OnUpdateMana += manaSlider.SetValue;
+            container.ManaHandler.OnUpdateMana += ShowAbilityChanger;
             container.HealView.OnHealthChangeEvent += hpSlider.SetValue;
         }
-        
+
+        private void ShowAbilityChanger(float current, float max)
+        {
+            if (current < max) return;
+            _rechangePanel.SetPanel(abilityChanger);
+            abilityChanger.ProvideChoice();
+        }
 
         public void Hide()
         {
@@ -33,6 +52,13 @@ namespace UI.Play.Game
             canvasGroup.alpha = 1;
             canvasGroup.interactable = true;
             canvasGroup.blocksRaycasts = true;
+        }
+
+        private void OnDestroy()
+        {
+            container.ManaHandler.OnUpdateMana -= manaSlider.SetValue;
+            container.ManaHandler.OnUpdateMana -= ShowAbilityChanger;
+            container.HealView.OnHealthChangeEvent -= hpSlider.SetValue;
         }
     }
 }

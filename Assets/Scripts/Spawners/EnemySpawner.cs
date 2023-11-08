@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Better.Attributes.Runtime;
 using Enemy;
-using Pools;
-using Unit.Player;
 using UnityEngine;
 using Container = Enemy.Container;
 using Random = UnityEngine.Random;

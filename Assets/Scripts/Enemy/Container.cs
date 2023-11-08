@@ -2,8 +2,8 @@
 using System.Collections;
 using Interfaces;
 using Pools;
+using Unit.Behaviors;
 using Unit.Behaviors.Stats;
-using Unit.Player;
 using UnityEngine;
 
 namespace Enemy
@@ -100,7 +100,6 @@ namespace Enemy
             _isReturned = false;
             collider.enabled = true;
             controller.enabled = true;
-            Debug.Log($"Enemy Play in Pos {transform.position}");
         }
 
         public void Stop()
@@ -110,7 +109,6 @@ namespace Enemy
             _isReturned = true;
             collider.enabled = false;
             controller.enabled = false;
-            Debug.Log($"Enemy Stop");
         }
 
         private IEnumerator Attack()

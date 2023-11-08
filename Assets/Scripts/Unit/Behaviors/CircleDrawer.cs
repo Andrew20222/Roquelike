@@ -1,32 +1,35 @@
 ﻿using UnityEngine;
 
-public class CircleDrawer : MonoBehaviour
+namespace Unit.Behaviors
 {
-    [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private SphereCollider sphereCollider;
-    [SerializeField] private int segments = 360;
-
-    private void Start()
+    public class CircleDrawer : MonoBehaviour
     {
-        lineRenderer.useWorldSpace = false;
-        DrawCircle();
-    }
+        [SerializeField] private LineRenderer lineRenderer;
+        [SerializeField] private SphereCollider sphereCollider;
+        [SerializeField] private int segments = 360;
 
-    private void DrawCircle()
-    {
-        lineRenderer.positionCount = segments + 1;
-
-        var deltaAngle = 2.0f * Mathf.PI / segments;
-        float angle = 0;
-
-        for (int i = 0; i < segments + 1; i++)
+        private void Start()
         {
-            float x = Mathf.Cos(angle) * sphereCollider.radius;
-            float y = Mathf.Sin(angle) * sphereCollider.radius;
+            lineRenderer.useWorldSpace = false;
+            DrawCircle();
+        }
 
-            lineRenderer.SetPosition(i, new Vector3(x, y, 0));
+        private void DrawCircle()
+        {
+            lineRenderer.positionCount = segments + 1;
 
-            angle += deltaAngle;
+            var deltaAngle = 2.0f * Mathf.PI / segments;
+            float angle = 0;
+
+            for (int i = 0; i < segments + 1; i++)
+            {
+                float x = Mathf.Cos(angle) * sphereCollider.radius;
+                float y = Mathf.Sin(angle) * sphereCollider.radius;
+
+                lineRenderer.SetPosition(i, new Vector3(x, y, 0));
+
+                angle += deltaAngle;
+            }
         }
     }
 }

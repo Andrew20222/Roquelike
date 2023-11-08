@@ -1,10 +1,4 @@
-﻿using System;
-using UnityEngine;
-
-namespace DefaultNamespace
+﻿public class TimeBar : Bar
 {
-    public class TimeBar : Bar
-    {
-        private Timer _timer;
-    }
+    private Timer _timer;
 }
