@@ -30,6 +30,7 @@ namespace UI.Play.Game.Ability
                 var text = "";
                 var randomAbility = 0;
                 Abilities.Enums.Ability ability;
+                Buff buff;
                 if (_present.Count == 0)
                 {
                     randomAbility = Random.Range(0, missing.Count);
@@ -37,6 +38,16 @@ namespace UI.Play.Game.Ability
                     text = $"Take {ability.ToString()}";
                     card.SetText(text);
                     card.OnClick += () => SetAbility(missing[randomAbility]);
+                }
+                else if (_present.Count >= 1)
+                {
+                    randomAbility = Random.Range(0, _present.Count);
+                    ability = _present[randomAbility];
+                    var randomBuff = Random.Range(0, _canOffer[ability].Count);
+                    buff = _canOffer[ability][randomBuff];
+                    text = $"Upgrade {buff.ToString()} in {ability.ToString()}";
+                    card.SetText(text);
+                    card.OnClick += () => Debug.Log("Add Buff");
                 }
             }
         }

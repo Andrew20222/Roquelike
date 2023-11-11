@@ -14,6 +14,7 @@ namespace UI.Play.Game
         private Container container;
         private RechangePanel _rechangePanel;
         public Action<float, float> OnTimeChanged => timeSlider.SetValue;
+        public event Action<bool> ShowAbilityEvent;
 
         private void Awake()
         {
@@ -21,7 +22,8 @@ namespace UI.Play.Game
             abilityChanger.SendSelectedAbility += (ability =>
             {
                 Debug.Log(ability.ToString());
-                _rechangePanel.SetPanel(this);
+                _rechangePanel.SetPanel(null);
+                ShowAbilityEvent?.Invoke(false);
             });
         }
 
@@ -38,6 +40,7 @@ namespace UI.Play.Game
             if (current < max) return;
             _rechangePanel.SetPanel(abilityChanger);
             abilityChanger.ProvideChoice();
+            ShowAbilityEvent?.Invoke(true);
         }
 
         public void Hide()

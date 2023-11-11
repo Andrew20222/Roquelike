@@ -22,6 +22,7 @@ namespace UI.Play
             _restartListenable = restartObserver;
             _restartCallbackable = restartObserver;
             _rechangePanel = new RechangePanel();
+            gameScreen.ShowAbilityEvent += SetAbilityScreen;
             playerSpawner.SpawnPlayerEvent += gameScreen.SetPlayer;
             playerSpawner.SpawnPlayerEvent += container => container.HealView.OnDeathEvent += SetLoseScreen;
             pauseScreen.ContinueEvent += () => stopController.OnStopCallback(false);
@@ -37,6 +38,20 @@ namespace UI.Play
         {
             winScreen.RestartEvent += _restartCallbackable.OnCallback;
             loseScreen.RestartEvent += _restartCallbackable.OnCallback;
+        }
+
+        private void SetAbilityScreen(bool value)
+        {
+            if (value)
+            {
+                stopController.Unsubscribe(UpdateStop);
+                stopController.OnStopCallback(true);
+            }
+            else
+            {
+                stopController.OnStopCallback(false);
+                stopController.Subscribe(UpdateStop);
+            }
         }
 
         private void UpdateStop(bool value)
