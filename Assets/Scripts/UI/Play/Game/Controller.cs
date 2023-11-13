@@ -25,6 +25,11 @@ namespace UI.Play.Game
                 _rechangePanel.SetPanel(null);
                 ShowAbilityEvent?.Invoke(false);
             });
+            abilityChanger.SendSelectedBuff += item =>
+            {
+                _rechangePanel.SetPanel(null);
+                ShowAbilityEvent?.Invoke(false);
+            };
         }
 
         public void SetPlayer(Container player)

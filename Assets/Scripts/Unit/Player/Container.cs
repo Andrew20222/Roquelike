@@ -21,7 +21,7 @@ namespace Unit.Player
         public IHealView HealView { get; private set; }
         [field: SerializeField] public PlayerMove PlayerMove { get; private set; }
         [field: SerializeField] public DeathBehaviour DeathBehaviour { get; private set; }
-
+        public Action ResetManaDelegate;
 
         private void Awake()
         {
@@ -29,6 +29,7 @@ namespace Unit.Player
             HealView = healthStatsBehaviour;
             HealView.OnDeathEvent += DeathBehaviour.Death;
             IsEnemy = false;
+            ResetManaDelegate = ResetMana;
         }
 
         private void Start()
@@ -46,6 +47,11 @@ namespace Unit.Player
         {
             manaStats.RemoveAllMana();
             HealView.SetMaxHealth(maxHp);
+        }
+
+        private void ResetMana()
+        {
+            manaStats.RemoveAllMana();
         }
 
         public void TakeDamage(float damage)

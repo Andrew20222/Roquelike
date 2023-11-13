@@ -16,6 +16,7 @@ namespace UI.Play.Game.Ability
         private List<Abilities.Enums.Ability> _present;
         private Dictionary<Abilities.Enums.Ability, List<Buff>> _canOffer;
         public event Action<Abilities.Enums.Ability> SendSelectedAbility;
+        public event Action<(Abilities.Enums.Ability, Buff)> SendSelectedBuff;
 
         private void Awake()
         {
@@ -47,7 +48,7 @@ namespace UI.Play.Game.Ability
                     buff = _canOffer[ability][randomBuff];
                     text = $"Upgrade {buff.ToString()} in {ability.ToString()}";
                     card.SetText(text);
-                    card.OnClick += () => Debug.Log("Add Buff");
+                    card.OnClick += () => SetAbilityBuf(ability, buff);
                 }
             }
         }
@@ -65,6 +66,11 @@ namespace UI.Play.Game.Ability
             }
 
             SendSelectedAbility?.Invoke(value);
+        }
+
+        private void SetAbilityBuf(Abilities.Enums.Ability ability, Buff buff)
+        {
+            SendSelectedBuff?.Invoke((ability, buff));
         }
 
         public void Hide()

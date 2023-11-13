@@ -1,4 +1,5 @@
 using Spawners;
+using Unit.Player;
 using UnityEngine;
 
 namespace UI.Play
@@ -23,10 +24,8 @@ namespace UI.Play
             _restartCallbackable = restartObserver;
             _rechangePanel = new RechangePanel();
             gameScreen.ShowAbilityEvent += SetAbilityScreen;
-            playerSpawner.SpawnPlayerEvent += gameScreen.SetPlayer;
-            playerSpawner.SpawnPlayerEvent += container => container.HealView.OnDeathEvent += SetLoseScreen;
+            playerSpawner.SpawnPlayerEvent += PlayerSpawn;
             pauseScreen.ContinueEvent += () => stopController.OnStopCallback(false);
-
             timeStats.TimeUpdateEvent += gameScreen.OnTimeChanged;
             timeStats.TimeIsOverEvent += SetWinScreen;
             stopController.Subscribe(UpdateStop);
@@ -40,6 +39,18 @@ namespace UI.Play
             loseScreen.RestartEvent += _restartCallbackable.OnCallback;
         }
 
+        private void PlayerSpawn(Container container)
+        {
+            gameScreen.SetPlayer(container);
+            container.HealView.OnDeathEvent += SetLoseScreen;
+            gameScreen.ShowAbilityEvent += value =>
+            {
+                if (value == false)
+                {
+                    container.ResetManaDelegate?.Invoke();
+                }
+            };
+        }
         private void SetAbilityScreen(bool value)
         {
             if (value)
