@@ -1,20 +1,20 @@
+using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI
 {
     public class ResourseSlider : MonoBehaviour
     {
-        [SerializeField] private Slider resourseSlider;
+        [SerializeField] private Image imageSlider;
 
         public void SetValue(float currentValue, float maxValue)
         {
-            if(resourseSlider == null) return;
-
-            resourseSlider.maxValue = maxValue;
-            resourseSlider.value = currentValue;
+            if (imageSlider == null) return;
+            var result = Mathf.Lerp(0, 1, currentValue);
+            var fillAmount = Mathf.Clamp(currentValue / maxValue, 0, 1);
+            imageSlider.fillAmount = fillAmount;
         }
-    
     }
 }
-

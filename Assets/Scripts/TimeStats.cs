@@ -23,10 +23,16 @@ public class TimeStats : MonoBehaviour
         _loseListenable.Subscribe((() => OnStopUpdate(true)));
         _timer = new Timer();
         _timer.TimeIsOver += TimeIsOverEvent;
-        _timer.HasBeenUpdated += TimeUpdateEvent;
+        _timer.HasBeenUpdated += UpdateTimeCallback;
         _timer.TimeIsOver += _winCallbackable.OnCallback;
         _restartListenable.Subscribe(StartTimer);
         stopController.Subscribe(OnStopUpdate);
+    }
+
+    private void UpdateTimeCallback(float current, float max)
+    {
+        Debug.Log($"Time: {current}");
+        TimeUpdateEvent?.Invoke(current, max);
     }
 
     private void Start()

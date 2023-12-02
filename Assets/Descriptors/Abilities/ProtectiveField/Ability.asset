@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Ability
   m_EditorClassIdentifier: 
   <Ability>k__BackingField: 0
-  <Prefab>k__BackingField: {fileID: 0}
-  upgraderInfo: {fileID: 11400000, guid: 3e61b47c1d3b1f648b6c0aa6e7987813, type: 2}
+  <Prefab>k__BackingField: {fileID: 3973594306451748916, guid: 3dca9898c12b9c744bd0f388079fe40d, type: 3}
+  <UpgraderInfo>k__BackingField: {fileID: 11400000, guid: e9c3a168417e78d48ac626a2f3f57bc5, type: 2}

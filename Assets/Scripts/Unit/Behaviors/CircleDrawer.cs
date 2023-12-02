@@ -14,7 +14,7 @@ namespace Unit.Behaviors
             DrawCircle();
         }
 
-        private void DrawCircle()
+        public void DrawCircle()
         {
             lineRenderer.positionCount = segments + 1;
 

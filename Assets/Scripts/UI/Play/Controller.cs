@@ -43,6 +43,8 @@ namespace UI.Play
         {
             gameScreen.SetPlayer(container);
             container.HealView.OnDeathEvent += SetLoseScreen;
+            gameScreen.SendAbilitySelected += container.SetAbilityDelegate;
+            gameScreen.SendSelectedBuff += container.UpgradeAbilityDelegate;
             gameScreen.ShowAbilityEvent += value =>
             {
                 if (value == false)
@@ -51,6 +53,7 @@ namespace UI.Play
                 }
             };
         }
+
         private void SetAbilityScreen(bool value)
         {
             if (value)

@@ -1,4 +1,5 @@
 ﻿using System;
+using Abilities.Enums;
 using Unit.Player;
 using UnityEngine;
 
@@ -15,6 +16,8 @@ namespace UI.Play.Game
         private RechangePanel _rechangePanel;
         public Action<float, float> OnTimeChanged => timeSlider.SetValue;
         public event Action<bool> ShowAbilityEvent;
+        public event Action<Abilities.Enums.Ability> SendAbilitySelected;
+        public event Action<Abilities.Enums.Ability, Buff> SendSelectedBuff;
 
         private void Awake()
         {
@@ -24,11 +27,13 @@ namespace UI.Play.Game
                 Debug.Log(ability.ToString());
                 _rechangePanel.SetPanel(null);
                 ShowAbilityEvent?.Invoke(false);
+                SendAbilitySelected?.Invoke(ability);
             });
-            abilityChanger.SendSelectedBuff += item =>
+            abilityChanger.SendSelectedBuff += (ability, buff) =>
             {
                 _rechangePanel.SetPanel(null);
                 ShowAbilityEvent?.Invoke(false);
+                SendSelectedBuff?.Invoke(ability, buff);
             };
         }
 

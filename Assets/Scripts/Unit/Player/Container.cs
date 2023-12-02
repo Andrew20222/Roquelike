@@ -1,4 +1,5 @@
 ﻿using System;
+using Abilities.Enums;
 using Interfaces;
 using Mana;
 using Unit.Behaviors;
@@ -11,7 +12,7 @@ namespace Unit.Player
     {
         [SerializeField] private ManaStats manaStats;
         [SerializeField] private HealthStatsBehaviour healthStatsBehaviour;
-        [SerializeField] private DamageField damageField;
+        [SerializeField] private Behaviors.Abilities abilities;
         [SerializeField] private float maxMana;
         [SerializeField] private float maxHp;
 
@@ -22,6 +23,8 @@ namespace Unit.Player
         [field: SerializeField] public PlayerMove PlayerMove { get; private set; }
         [field: SerializeField] public DeathBehaviour DeathBehaviour { get; private set; }
         public Action ResetManaDelegate;
+        public Action<Ability> SetAbilityDelegate;
+        public Action<Ability, Buff> UpgradeAbilityDelegate;
 
         private void Awake()
         {
@@ -30,6 +33,9 @@ namespace Unit.Player
             HealView.OnDeathEvent += DeathBehaviour.Death;
             IsEnemy = false;
             ResetManaDelegate = ResetMana;
+            SetAbilityDelegate = abilities.SetAbility;
+            UpgradeAbilityDelegate = abilities.UpgradeAbility;
+            ManaHandler.AddMana(maxMana);
         }
 
         private void Start()
@@ -40,7 +46,7 @@ namespace Unit.Player
         
         public void SubscribeStop(Action<Action<bool>> subscribe)
         {
-            subscribe?.Invoke(damageField.UpdateStop);
+            abilities.SubscribeStop(subscribe);
         }
 
         public void Restart()
